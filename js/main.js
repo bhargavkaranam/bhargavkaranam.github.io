@@ -120,21 +120,27 @@ jQuery(function($) {
 	});
 
 	// Contact form
-	var form = $('#main-contact-form');
-	form.submit(function(event){
-		event.preventDefault();
-		var form_status = $('<div class="form_status"></div>');
+	$(document).on("click",".btn-submit",function(){
+		var name=$("#name").val();
+		var email=$("#email").val();
+		var message=$("#message").val();
+
 		$.ajax({
-			url: $(this).attr('action'),
-			beforeSend: function(){
-				form.prepend( form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is sending...</p>').fadeIn() );
-			}
-		}).done(function(data){
-			form_status.html('<p class="text-success">Thank you for contact us. As early as possible  we will contact you</p>').delay(3000).fadeOut();
+			url:'http://bhargavkaranam.comlu.com/contact.php',
+			type:'post',
+			data:'name='+name+'&email='+email+'&message='+message,
+			dataType:'json',
+			success:function(data)
+			{
+				alert('sdfsdf');
+				if(data.status=="111")
+					$(".contact-form").text("Got your message. Will get back to you. Thank you!");
+				if(data.status=="000")
+					$(".contact-form").text("Some error occurred. Please wait.");
+			},
+		
 		});
 	});
-
-	//Google Map
 	
 	
 });
